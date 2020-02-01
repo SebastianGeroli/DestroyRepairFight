@@ -16,7 +16,6 @@ public class PlayerCollect : MonoBehaviour
 	List<Player> playersInRange = new List<Player>();
 	List<BigRock> bigRocksdInRange = new List<BigRock>();
 	List<RockChunk> rockChunksInRange = new List<RockChunk>();
-
 	[SerializeField]
 	float throwForce = 50f;
 	[Header("Settings")]
@@ -97,7 +96,7 @@ public class PlayerCollect : MonoBehaviour
 					player.GetPickaxeToFace(transform.position);
 				}
 			}
-
+			animator.SetTrigger("attack");
 
 		}
 	}
@@ -110,6 +109,7 @@ public class PlayerCollect : MonoBehaviour
 			hasRockChunk = true;
 			Destroy(rockChunk.gameObject);
 			rockChankInHand.SetActive(true);
+			animator.SetBool("piedra", true);
 		}
 
 	}
@@ -122,6 +122,7 @@ public class PlayerCollect : MonoBehaviour
 			RockChunk rock = Instantiate(rockChunkPrefab, rockChunkThrowTransform.position, Quaternion.identity);
 			Vector3 impulse = Quaternion.Euler(0, Random.Range(0, 360), 0) * rockChunkThrowTransform.forward;
 			rock.AddImpulse(impulse);
+			animator.SetBool("piedra", false);
 		}
 	}
 
@@ -135,6 +136,8 @@ public class PlayerCollect : MonoBehaviour
 			RockChunk rock = Instantiate(rockChunkPrefab, rockChunkThrowTransform.position, Quaternion.identity);
 			Vector3 impulse = rockChunkThrowTransform.forward * throwForce;
 			rock.AddImpulse(impulse);
+			animator.SetBool("piedra", false);
+			animator.SetTrigger("throw");
 		}
 
 	}

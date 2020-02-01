@@ -19,10 +19,12 @@ public class PlayerInput : MonoBehaviour
 	[SerializeField]
 	PlayerCollect playerCollect;
 	[SerializeField]
+	PlayerFight playerFight;
+	[SerializeField]
 	float freezeMaxTime = 0.3f;
 
 	[SerializeField]
-	PlayerState state = PlayerState.Waiting;
+	public PlayerState state = PlayerState.Waiting;
 	Vector2 movementInput = Vector2.zero;
 	bool action = false;
 
@@ -91,7 +93,7 @@ public class PlayerInput : MonoBehaviour
 					break;
 				case PlayerState.Fighting:
 					movement.Move(movementInput);
-
+					if (action) playerFight.Action();
 					break;
 				case PlayerState.Dead:
 					movement.Move(Vector2.zero);
