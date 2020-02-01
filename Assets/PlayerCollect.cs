@@ -29,10 +29,12 @@ public class PlayerCollect : MonoBehaviour
 		{
 			playersInRange.Add(other.GetComponent<Player>());
 		}
-		if (other.GetComponent<BigRock>() != null) {
+		if (other.GetComponent<BigRock>() != null)
+		{
 			bigRocksdInRange.Add(other.GetComponent<BigRock>());
 		}
-		if (other.GetComponent<RockChunk>() != null) {
+		if (other.GetComponent<RockChunk>() != null)
+		{
 			rockChunksInRange.Add(other.GetComponent<RockChunk>());
 		}
 	}
@@ -61,7 +63,15 @@ public class PlayerCollect : MonoBehaviour
 		}
 		else if (rockChunksInRange.Count > 0)
 		{
-			PickRockChunk(rockChunksInRange[0]);
+			while (rockChunksInRange.Count > 0)
+			{
+				if (rockChunksInRange[0] == null)
+					rockChunksInRange.RemoveAt(0);
+				else
+					PickRockChunk(rockChunksInRange[0]);
+				break;
+			}
+
 		}
 		else
 		{
@@ -110,11 +120,11 @@ public class PlayerCollect : MonoBehaviour
 			rockChankInHand.SetActive(false);
 			hasRockChunk = false;
 			RockChunk rock = Instantiate(rockChunkPrefab, rockChunkThrowTransform.position, Quaternion.identity);
-			Vector3 impulse = Quaternion.Euler(0,Random.Range(0,360),0) * rockChunkThrowTransform.forward;
+			Vector3 impulse = Quaternion.Euler(0, Random.Range(0, 360), 0) * rockChunkThrowTransform.forward;
 			rock.AddImpulse(impulse);
 		}
 	}
-	
+
 	public void ThrowRockChunk()
 	{
 		if (hasRockChunk)

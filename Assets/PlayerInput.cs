@@ -41,12 +41,14 @@ public class PlayerInput : MonoBehaviour
 	{
 		if (!isFrozen)
 		{
+			isFrozen = true;
 			freezeTime = 0f;
 			freezeAt = Time.time;
 		}
 
 		freezeTime = Mathf.Clamp(freezeTime + time, 0f, freezeMaxTime);
 		freezeObject.SetActive(true);
+		movement.Move(Vector2.zero);
 	}
 
 	public void Unfreeze()
@@ -67,7 +69,6 @@ public class PlayerInput : MonoBehaviour
 
 		if (isFrozen)
 		{
-			movement.Move(Vector2.zero);
 
 			if (freezeAt + freezeTime <= Time.time)
 			{
