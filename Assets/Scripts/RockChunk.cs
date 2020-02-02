@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class RockChunk : MonoBehaviour
 {
+
+	public float value = 3f;
 	new Rigidbody rigidbody;
 	// Start is called before the first frame update
 	void Start()
 	{
 		rigidbody = GetComponent<Rigidbody>();
+		transform.rotation = Quaternion.Euler(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
 
 	}
 

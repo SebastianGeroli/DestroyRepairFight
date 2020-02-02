@@ -13,12 +13,15 @@ public class Player : MonoBehaviour
 	new Rigidbody rigidbody;
 	[SerializeField]
 	public float life , materials;
+	private float maxLife;
+	public float MaxLife => maxLife;
 	[SerializeField]
 	Animator animator;
 
+
 	void Start()
 	{
-
+		maxLife = life;
 	}
 
 	// Update is called once per frame
@@ -42,7 +45,8 @@ public class Player : MonoBehaviour
 		life = Mathf.Max(0f, life - damage);
 		if (life <= 0f)
 		{
-			Destroy(gameObject);
+			playerInput.SetState(PlayerState.Dead);
+			gameObject.SetActive(false);
 		}
 	}
 

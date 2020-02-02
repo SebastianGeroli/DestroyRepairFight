@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerCollect : MonoBehaviour
 {
 	[SerializeField]
+	GameObject pickaxeSlot;
+	[SerializeField]
 	Animator animator;
 	[SerializeField]
 	RockChunk rockChunkPrefab;
@@ -12,6 +14,12 @@ public class PlayerCollect : MonoBehaviour
 	Transform rockChunkThrowTransform;
 	[SerializeField]
 	GameObject rockChankInHand;
+
+	[Header("UI")]
+	[SerializeField]
+	GameObject arrow;
+	[SerializeField]
+	GameObject area;
 
 	List<Player> playersInRange = new List<Player>();
 	List<BigRock> bigRocksdInRange = new List<BigRock>();
@@ -53,6 +61,22 @@ public class PlayerCollect : MonoBehaviour
 		}
 	}
 
+	public void HidePickaxe()
+	{
+		pickaxeSlot.SetActive(false);
+		area.SetActive(false);
+		arrow.SetActive(false);
+		Debug.Log("HideArea");
+	}
+
+
+
+	public void ShowPickaxe()
+	{
+		pickaxeSlot.SetActive(true);
+		area.SetActive(true);
+		Debug.Log("ShowArea");
+	}
 
 	public void Action()
 	{
@@ -110,6 +134,9 @@ public class PlayerCollect : MonoBehaviour
 			Destroy(rockChunk.gameObject);
 			rockChankInHand.SetActive(true);
 			animator.SetBool("piedra", true);
+			area.SetActive(false);
+			arrow.SetActive(true);
+
 		}
 
 	}
@@ -117,27 +144,33 @@ public class PlayerCollect : MonoBehaviour
 	{
 		if (hasRockChunk)
 		{
-			rockChankInHand.SetActive(false);
-			hasRockChunk = false;
+			ClearRock();
+			
 			RockChunk rock = Instantiate(rockChunkPrefab, rockChunkThrowTransform.position, Quaternion.identity);
 			Vector3 impulse = Quaternion.Euler(0, Random.Range(0, 360), 0) * rockChunkThrowTransform.forward;
 			rock.AddImpulse(impulse);
-			animator.SetBool("piedra", false);
 		}
 	}
 
+	public void ClearRock()
+	{
+		rockChankInHand.SetActive(false);
+		hasRockChunk = false;
+		animator.SetBool("piedra", false);
+
+		area.SetActive(true);
+		arrow.SetActive(false);
+	}
 	public void ThrowRockChunk()
 	{
 		if (hasRockChunk)
 		{
 			Debug.Log("Throw rock");
-			hasRockChunk = false;
-			rockChankInHand.SetActive(false);
 			RockChunk rock = Instantiate(rockChunkPrefab, rockChunkThrowTransform.position, Quaternion.identity);
 			Vector3 impulse = rockChunkThrowTransform.forward * throwForce;
 			rock.AddImpulse(impulse);
-			animator.SetBool("piedra", false);
 			animator.SetTrigger("throw");
+			ClearRock();
 		}
 
 	}

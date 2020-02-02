@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
 
 	public static PlayerManager manager;
 	public bool[] players = new bool[4];
-	void Start()
+	void Awake()
 	{
 		if (manager != null && manager != this)
 		{
@@ -17,6 +17,7 @@ public class PlayerManager : MonoBehaviour
 		{
 			manager = this;
 		}
+		DontDestroyOnLoad(this);
 	}
 
 	// Update is called once per frame

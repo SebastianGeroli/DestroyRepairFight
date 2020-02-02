@@ -13,18 +13,24 @@ public enum PlayerState
 public class PlayerInput : MonoBehaviour
 {
 	[SerializeField]
-	PlayerNumber owner;
+	Renderer[] renderersColor;
+	[SerializeField]
+	private PlayerNumber owner;
 	[SerializeField]
 	PlayerMovement movement;
 	[SerializeField]
 	PlayerCollect playerCollect;
+	[SerializeField]
+	PlayerRepair playerRepair;
 	[SerializeField]
 	PlayerFight playerFight;
 	[SerializeField]
 	float freezeMaxTime = 0.3f;
 
 	[SerializeField]
-	public PlayerState state = PlayerState.Waiting;
+	private PlayerState state = PlayerState.Waiting;
+	public PlayerState State => state;
+
 	Vector2 movementInput = Vector2.zero;
 	bool action = false;
 
@@ -38,7 +44,14 @@ public class PlayerInput : MonoBehaviour
 	{
 
 	}
-
+	public void SetOwner(PlayerNumber number, Color color)
+	{
+		foreach(Renderer renderer in renderersColor)
+		{
+			renderer.material.SetColor("_EmissionColor", color);
+		}
+		owner = number;
+	}
 	public void Freeze(float time)
 	{
 		if (!isFrozen)
@@ -62,6 +75,67 @@ public class PlayerInput : MonoBehaviour
 		}
 	}
 
+
+	public void SetState(PlayerState state)
+	{
+		this.state = state;
+		//Waiting
+		if (state == PlayerState.Waiting)
+		{
+			movement.Move(Vector2.zero);
+
+		}
+		else
+		{
+
+		}
+
+		//Dead
+		if (state == PlayerState.Dead)
+		{
+			movement.Move(Vector2.zero);
+
+		}
+		else
+		{
+
+		}
+
+		//Collecting
+		if (state == PlayerState.Collecting)
+		{
+			playerCollect.ShowPickaxe();
+		}
+		else
+		{
+			playerCollect.ClearRock();
+			playerCollect.HidePickaxe();
+		}
+		//Collecting
+		if (state == PlayerState.Repairing)
+		{
+			playerRepair.ShowHammer();
+		}
+		else
+		{
+			playerRepair.HideHammer();
+
+		}
+		
+
+		//Fighting
+		if (state == PlayerState.Fighting)
+		{
+			playerFight.ShowWeapon();
+
+		}
+		else
+		{
+			playerFight.HideWeapon();
+		}
+
+		
+	}
 	void Update()
 	{
 		movementInput.x = Input.GetAxis("Horizontal" + owner);
@@ -88,7 +162,7 @@ public class PlayerInput : MonoBehaviour
 					if (action) playerCollect.Action();
 					break;
 				case PlayerState.Repairing:
-					movement.Move(Vector2.zero);
+					if (action) playerRepair.Action();
 
 					break;
 				case PlayerState.Fighting:

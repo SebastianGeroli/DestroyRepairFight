@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-enum PlayerNumber
+public enum PlayerNumber
 {
 	One,
 	Two,

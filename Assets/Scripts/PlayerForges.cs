@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerForges : MonoBehaviour
 {
+
 	[SerializeField]
 	Player player;
     // Start is called before the first frame update

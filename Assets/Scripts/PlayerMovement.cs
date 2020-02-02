@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 	public float speed = 3f;
+	[SerializeField]
 	Rigidbody rb;
 	[SerializeField]
 	Animator anim;

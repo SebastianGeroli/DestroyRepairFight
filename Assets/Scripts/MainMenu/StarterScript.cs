@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StarterScript : MonoBehaviour
@@ -34,13 +35,17 @@ public class StarterScript : MonoBehaviour
 
 		allSetView.SetActive(allSet);
 		notSetView.SetActive(!allSet);
-		if (allSet && Input.GetButton("Start"))
+		if (allSet && Input.GetButton("Submit"))
 		{
 			filled += Time.deltaTime;
+			if(filled >= 2f)
+				SceneManager.LoadScene(1);
+
 		}
 		else
 		{
 			filled = 0f;
 		}
+		fill.fillAmount = filled / 2f;
     }
 }
